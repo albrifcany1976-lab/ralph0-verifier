@@ -1,0 +1,48 @@
+Local verification: 2026-10-29
+Interpreter: 3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]
+
+test_regular_file (test_verifier.ArchiveTests.test_regular_file) ... ok
+test_symlink (test_verifier.ArchiveTests.test_symlink) ... ok
+test_traversal (test_verifier.ArchiveTests.test_traversal) ... ok
+test_docker_controls_are_present (test_verifier.BoundTests.test_docker_controls_are_present) ... ok
+test_nonzero_is_preserved (test_verifier.BoundTests.test_nonzero_is_preserved) ... ok
+test_output_limit_calls_external_stop (test_verifier.BoundTests.test_output_limit_calls_external_stop) ... ok
+test_timeout_calls_external_stop (test_verifier.BoundTests.test_timeout_calls_external_stop) ... ok
+test_exit_requires_pid_zero (test_verifier.BoundaryTests.test_exit_requires_pid_zero) ... ok
+test_expected_boundary (test_verifier.BoundaryTests.test_expected_boundary) ... ok
+test_relaxed_boundaries_rejected (test_verifier.BoundaryTests.test_relaxed_boundaries_rejected) ... ok
+test_socket_mount_rejected (test_verifier.BoundaryTests.test_socket_mount_rejected) ... ok
+test_token_environment_rejected (test_verifier.BoundaryTests.test_token_environment_rejected) ... ok
+test_writable_reference_rejected (test_verifier.BoundaryTests.test_writable_reference_rejected) ... ok
+test_allowed_source (test_verifier.GateTests.test_allowed_source) ... ok
+test_delete_rejected (test_verifier.GateTests.test_delete_rejected) ... ok
+test_empty_only_in_dry_run (test_verifier.GateTests.test_empty_only_in_dry_run) ... ok
+test_extra_file_rejected_not_filtered (test_verifier.GateTests.test_extra_file_rejected_not_filtered) ... ok
+test_mode_change_rejected (test_verifier.GateTests.test_mode_change_rejected) ... ok
+test_real_git_diff_and_modes (test_verifier.GateTests.test_real_git_diff_and_modes) ... ok
+test_scope_rejection (test_verifier.GateTests.test_scope_rejection) ... ok
+test_symlink_rejected (test_verifier.GateTests.test_symlink_rejected) ... ok
+test_exact_upstream_bytes_and_patch_application (test_verifier.RegressionArtifactTests.test_exact_upstream_bytes_and_patch_application) ... ok
+test_duplicate_summary (test_verifier.ResultTests.test_duplicate_summary) ... ok
+test_duplicate_test (test_verifier.ResultTests.test_duplicate_test) ... ok
+test_exact_baseline_failure (test_verifier.ResultTests.test_exact_baseline_failure) ... ok
+test_exact_success (test_verifier.ResultTests.test_exact_success) ... ok
+test_missing_test (test_verifier.ResultTests.test_missing_test) ... ok
+test_optimization_rejected (test_verifier.ResultTests.test_optimization_rejected) ... ok
+test_other_sympy_import_rejected (test_verifier.ResultTests.test_other_sympy_import_rejected) ... ok
+test_skip_rejected (test_verifier.ResultTests.test_skip_rejected) ... ok
+test_wrong_baseline_exception (test_verifier.ResultTests.test_wrong_baseline_exception) ... ok
+test_wrong_baseline_line (test_verifier.ResultTests.test_wrong_baseline_line) ... ok
+test_wrong_exit_code (test_verifier.ResultTests.test_wrong_exit_code) ... ok
+test_zero_exit_alone_is_not_success (test_verifier.ResultTests.test_zero_exit_alone_is_not_success) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.176s
+
+OK
+
+Python AST parsing: 6 files passed.
+Workflow YAML parsing and manual-trigger/read-permission/runner checks passed.
+This is not GitHub Actions schema or runtime validation.
+No SymPy code, Docker container, GitHub workflow or production operation was executed.
+Review: implementation author self-review; independent operational qualification is pending.

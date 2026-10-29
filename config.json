@@ -1,0 +1,27 @@
+{
+  "task": "sympy__sympy-21847",
+  "repository": "https://github.com/albrifcany1976-lab/ralph0-sympy-trial.git",
+  "base": "d9b18c518d64d0ebe8e35a98c2fb519938b9b151",
+  "source": "sympy/polys/monomials.py",
+  "test": "sympy/polys/tests/test_monomials.py",
+  "patch_sha256": "5b7f4777d3758f017525597a935d95a0516f90b653bd21ccdcc9a92e681d16e6",
+  "base_test_sha256": "bf6767ca8f8397834716d10a4396196b7a093134a4601e0527084e69d2d555b7",
+  "patched_test_sha256": "6d8d39ec80c5c95b3ceb88dc278e992132efe7bc4c28d7c1570042fa69f324b0",
+  "tests": [
+    "test_monomials",
+    "test_monomial_count",
+    "test_monomial_mul",
+    "test_monomial_div",
+    "test_monomial_gcd",
+    "test_monomial_lcm",
+    "test_monomial_max",
+    "test_monomial_pow",
+    "test_monomial_min",
+    "test_monomial_divides",
+    "test_Monomial"
+  ],
+  "failure_line": 116,
+  "failure_source": "assert set(itermonomials([x, y], 3, 3)) == {x**3, x**2*y, x*y**2, y**3}",
+  "python": "3.9.25",
+  "mpmath": "1.3.0"
+}
