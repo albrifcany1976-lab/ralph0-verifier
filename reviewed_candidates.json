@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "candidate": "26b3777e0034e3ba93fdf4f9fdc2e398e8e3f728",
+    "diff_sha256": "133ce3eb6d8d20db238182c2c4848da7d54c74313f7adcce4a37ba6592ac71dd",
+    "reviewer": "ChatGPT /root independent static diff review; inspect run 40918173380; 2026-10-29"
+  }
+]

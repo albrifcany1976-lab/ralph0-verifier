@@ -36,8 +36,8 @@
     "sha256": "5b7f4777d3758f017525597a935d95a0516f90b653bd21ccdcc9a92e681d16e6"
   },
   "reviewed_candidates.json": {
-    "bytes": 3,
-    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    "bytes": 260,
+    "sha256": "a90c90dfd2095b38d0952e5bf311271d893ae5a57c6f5b2e8c740b6dc156179f"
   },
   "runtime/Dockerfile": {
     "bytes": 949,
