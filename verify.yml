@@ -1,0 +1,93 @@
+name: Ralph-0 protected verification
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: inspect = diff only; qualify = base fails twice; verify = reviewed candidate
+        type: choice
+        options: [inspect, qualify, verify]
+        default: qualify
+      candidate_sha:
+        description: Full 40-character commit SHA from the trial repository
+        type: string
+        default: d9b18c518d64d0ebe8e35a98c2fb519938b9b151
+        required: true
+      boundary_confirmed:
+        description: Operator checked executor cannot write this verifier through ANY connector or credential
+        type: boolean
+        default: false
+      run_authorized:
+        description: Operator authorizes this mode and confirms no additional spending
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: ralph0-protected-verification
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check launch boundary
+        env:
+          BOUNDARY: ${{ inputs.boundary_confirmed }}
+          AUTHORIZED: ${{ inputs.run_authorized }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          test "$BOUNDARY" = true
+          test "$AUTHORIZED" = true
+          test "$REPOSITORY" = albrifcany1976-lab/ralph0-verifier
+          test "$REF" = refs/heads/main
+          test "$ATTEMPT" = 1
+      - name: Checkout verifier only
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Update host CA store on disposable runner
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          sudo apt-get update -o Acquire::Retries=0 -o Acquire::http::Timeout=30
+          sudo apt-get install -y --no-install-recommends ca-certificates
+          dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.24.04.1
+      - name: Check package integrity
+        run: sha256sum --check SHA256SUMS
+      - name: Run host supervisor
+        id: supervisor
+        env:
+          MODE: ${{ inputs.mode }}
+          CANDIDATE: ${{ inputs.candidate_sha }}
+        run: |
+          set -euo pipefail
+          python3 -B verifier.py "$MODE" --candidate "$CANDIDATE" --evidence "$RUNNER_TEMP/ralph0-evidence"
+      - name: Upload bounded evidence
+        if: ${{ always() && steps.supervisor.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ralph0-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/ralph0-evidence/
+          if-no-files-found: error
+          retention-days: 1
+      - name: Write final summary
+        if: ${{ always() && steps.supervisor.outcome != 'skipped' }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'ralph0-evidence/report.json'
+          if not p.is_file():
+              raise SystemExit('No complete report; no success verdict')
+          r = json.loads(p.read_text())
+          allowed = {'STOP','STOP_UNKNOWN','REVIEW_REQUIRED','DRY_RUN_DETECTED_BUG','VERIFIED_FOR_THIS_TASK'}
+          verdict = r['verdict']
+          assert verdict in allowed
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('# Ralph-0\n\n' + verdict + '\n\nSee the evidence artifact for identities and test results.\n')
+          PY
+
